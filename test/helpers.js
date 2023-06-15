@@ -1,21 +1,42 @@
-const chai = require('chai')
-const sinon = require('sinon')
-global.expect = chai.expect
-const fs = require('fs')
-const jsdom = require('mocha-jsdom')
-const path = require('path')
-const babel = require('babel-core');
+function destructivelyAppendCat(cats, name) {
+  cats.push(name);
+}
 
-const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8')
+function destructivelyPrependCat(cats, name) {
+  cats.unshift(name);
+}
 
-const babelResult = babel.transformFileSync(
-  path.resolve(__dirname, '..', 'index.js'), {
-    presets: ['env']
-  }
-);
+function destructivelyRemoveLastCat(cats) {
+  cats.pop();
+}
 
-const src = babelResult.code
+function destructivelyRemoveFirstCat(cats) {
+  cats.shift();
+}
 
-jsdom({
-  html, src
-});
+function appendCat(cats, name) {
+  return cats.concat(name);
+}
+
+function prependCat(cats, name) {
+  return [name].concat(cats);
+}
+
+function removeLastCat(cats) {
+  return cats.slice(0, -1);
+}
+
+function removeFirstCat(cats) {
+  return cats.slice(1);
+}
+
+module.exports = {
+  destructivelyAppendCat,
+  destructivelyPrependCat,
+  destructivelyRemoveLastCat,
+  destructivelyRemoveFirstCat,
+  appendCat,
+  prependCat,
+  removeLastCat,
+  removeFirstCat,
+};
